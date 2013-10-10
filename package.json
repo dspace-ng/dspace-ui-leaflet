@@ -1,0 +1,39 @@
+{
+  "name": "dspace-ui-leaflet",
+  "version": "0.0.1",
+  "description": "DSpace UI components based on Leaflets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DSpace-NG/dspace-ui-leaflet.git"
+  },
+  "keywords": [
+    "DSpace",
+    "DSpace-NG"
+  ],
+  "author": "",
+  "contributors": [
+    {
+      "name": "☮ elf Pavlik ☮",
+      "email": "perpetual-tripper@wwelves.org"
+    },
+    {
+      "name": "Niklas E. Cathor",
+      "email": "nilclass@riseup.net"
+    }
+  ],
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/DSpace-NG/dspace-ui-leaflet/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-markdown": "~0.4.0"
+  }
+}
