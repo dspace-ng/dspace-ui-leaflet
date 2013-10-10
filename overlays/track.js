@@ -9,8 +9,6 @@ var TrackOverlay = Backbone.View.extend({
       color: this.options.color
     }).addTo(this.layer);
 
-    console.log('added polyline');
-
     if(this.collection.length > 0) {
       this.collection.each(function(location){
         this.add(location);
