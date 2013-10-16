@@ -1,9 +1,9 @@
 // FIXME: sometimes profile arrives first and sometiems fist location, simplyfy!
 var PixelIcon = L.Icon.extend({
   options: {
-    iconSize:     [48, 48],
-    iconAnchor:   [24, 48],
-    popupAnchor:  [-3, -76]
+    iconSize:     [36, 36],
+    iconAnchor:   [18, 36],
+    popupAnchor:  [0, -40]
   }
 });
 
@@ -13,25 +13,27 @@ var AvatarOverlay = Backbone.View.extend({
     this.layer = this.options.layer;
     _.bindAll(this, 'move', 'update');
 
-    this.model.on('location', this.move);
-    this.model.on('change', this.update);
+    this.model.on('change:position', this.move);
+    this.model.on('change:avatar', this.update);
   },
 
   getAvatarIcon: function() {
-    var iconUrl = 'assets/images/avatars/'+ this.model.get('avatar') + '.png';
+    var iconUrl = 'assets/images/avatars/'+ this.model.get('avatar') + '_48.png';
     return new PixelIcon({iconUrl: iconUrl});
   },
 
-  move: function(location) {
+  move: function(position) {
+    var latLng = { lat: position.coords.latitude, lon: position.coords.longitude };
     if(this.avatar) {
-      this.avatar.setLatLng(location.toJSON());
+      this.avatar.setLatLng(latLng);
     } else {
-      this.avatar = new L.Marker(location.toJSON());
+      this.avatar = new L.Marker(latLng);
       if(this.initialIcon) {
         this.avatar.setIcon(this.initialIcon);
       } else {
         this.avatar.setIcon(this.getAvatarIcon());
       }
+      this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+this.model.get('nickname')+'</em>'));
       this.avatar.addTo(this.layer);
     }
   },

@@ -23,7 +23,7 @@ var StoryOverlay = Backbone.View.extend({
       var marker = new L.Marker([location.lat, location.lng], {
         icon: this.icon
       });
-      marker.bindPopup(new L.Popup().setContent('<em>'+capture.attributes.text+'</em>'));
+      marker.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+capture.attributes.text+'</em>'));
       this.layer.addLayer(marker);
     }
   }
