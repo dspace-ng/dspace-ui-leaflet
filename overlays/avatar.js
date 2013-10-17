@@ -14,7 +14,7 @@ var AvatarOverlay = Backbone.View.extend({
     _.bindAll(this, 'move', 'update');
 
     this.model.on('change:position', this.move);
-    this.model.on('change:avatar', this.update);
+    this.model.on('change:avatar change:nickname', this.update);
   },
 
   getAvatarIcon: function() {
@@ -38,9 +38,10 @@ var AvatarOverlay = Backbone.View.extend({
     }
   },
 
-  update: function(user) {
+  update: function(player) {
     if(this.avatar){
       this.avatar.setIcon(this.getAvatarIcon());
+      this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+ player.get('nickname')+'</em>'));
     } else {
       this.initialIcon = this.getAvatarIcon();
     }

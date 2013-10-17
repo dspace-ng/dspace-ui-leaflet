@@ -2,18 +2,25 @@ var TrackOverlay = Backbone.View.extend({
 
   initialize: function() {
     this.layer = this.options.layer;
-    _.bindAll(this, '_newPosition');
+    _.bindAll(this, '_newPosition', 'load');
     this.collection.on('add', this._newPosition);
 
     this.track = new L.Polyline([], {
       color: this.options.color
     }).addTo(this.layer);
 
-    if(this.collection.length > 0) {
-      this.collection.each(function(location){
-        this.add(location);
-      }, this);
-    }
+    this.collection.on('load:success', this.load);
+
+    // initial loading
+    this.load();
+
+  },
+
+  load: function(){
+    console.log('TrackOverlay.load()');
+    this.collection.each(function(location){
+      this._newPosition(location);
+    }, this);
   },
 
   _newPosition: function(location) {
