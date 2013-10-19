@@ -2,7 +2,7 @@ var TrackOverlay = Backbone.View.extend({
 
   initialize: function() {
     this.layer = this.options.layer;
-    _.bindAll(this, '_newPosition', 'load');
+    _.bindAll(this, '_newPosition'); // 'load'
     this.collection.on('add', this._newPosition);
 
     this.collection.overlay = this;
@@ -11,19 +11,19 @@ var TrackOverlay = Backbone.View.extend({
       color: this.options.color
     }).addTo(this.layer);
 
-    this.collection.on('load:success', this.load);
+    //this.collection.on('load:success', this.load);
 
     // initial loading
-    this.load();
+    //this.load();
 
   },
 
-  load: function(){
-    console.log('TrackOverlay.load()');
-    this.collection.each(function(location){
-      this._newPosition(location);
-    }, this);
-  },
+  //load: function(){
+    //console.log('TrackOverlay.load()');
+    //this.collection.each(function(location){
+      //this._newPosition(location);
+    //}, this);
+  //},
 
   _newPosition: function(location) {
     var coords = location.toJSON().coords;
