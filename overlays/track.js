@@ -5,7 +5,9 @@ var TrackOverlay = Backbone.View.extend({
     _.bindAll(this, '_newPosition', 'load');
     this.collection.on('add', this._newPosition);
 
-    this.track = new L.Polyline([], {
+    this.collection.overlay = this;
+
+    this.line = new L.Polyline([], {
       color: this.options.color
     }).addTo(this.layer);
 
@@ -26,7 +28,7 @@ var TrackOverlay = Backbone.View.extend({
   _newPosition: function(location) {
     var coords = location.toJSON().coords;
     var point = { lat: coords.latitude, lon: coords.longitude };
-    var points = this.track.getLatLngs();
+    var points = this.line.getLatLngs();
     if(points.length === 0){
       this._addPoint(point);
       return;
@@ -38,7 +40,7 @@ var TrackOverlay = Backbone.View.extend({
   },
 
   _addPoint: function(latLng) {
-    this.track.addLatLng(latLng);
+    this.line.addLatLng(latLng);
   }
 });
 

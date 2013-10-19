@@ -10,6 +10,8 @@ var StoryOverlay = Backbone.View.extend({
     _.bindAll(this, 'add');
     this.collection.on('add', this.add);
 
+    this.collection.overlay = this;
+
     if(this.collection.length > 0) {
       this.collection.each(function(location){
         this.add(location);

@@ -13,6 +13,8 @@ var AvatarOverlay = Backbone.View.extend({
     this.layer = this.options.layer;
     _.bindAll(this, 'move', 'update');
 
+    this.model.overlay = this;
+
     this.model.on('change:position', this.move);
     this.model.on('change:avatar change:nickname', this.update);
   },
