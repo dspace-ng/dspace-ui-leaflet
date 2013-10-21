@@ -25,6 +25,7 @@ var AvatarOverlay = Backbone.View.extend({
   },
 
   move: function(position) {
+    if(position.toJSON) position = position.toJSON();
     var latLng = { lat: position.coords.latitude, lon: position.coords.longitude };
     if(this.avatar) {
       this.avatar.setLatLng(latLng);

@@ -1,10 +1,9 @@
 var TrackOverlay = Backbone.View.extend({
 
   initialize: function() {
-    this.layer = this.options.layer;
-    _.bindAll(this, '_newPosition', 'load');
-    this.collection.on('add', this._newPosition);
+    _.bindAll(this, 'load', '_newPosition');
 
+    this.layer = this.options.layer;
     this.collection.overlay = this;
 
     this.line = new L.Polyline([], {
@@ -12,19 +11,21 @@ var TrackOverlay = Backbone.View.extend({
     }).addTo(this.layer);
 
     // initial loading
-    this.load();
+    this.collection.on('loaded', this.load);
+    this.collection.on('add', this._newPosition);
 
   },
 
+  //FIXME only load if switched on in roster!
   load: function(){
     console.log('TrackOverlay.load()');
-    this.collection.each(function(location){
-      this._newPosition(location);
+    this.collection.each(function(position){
+      this._newPosition(position);
     }, this);
   },
 
-  _newPosition: function(location) {
-    var coords = location.toJSON().coords;
+  _newPosition: function(position) {
+    var coords = position.toJSON().coords;
     var point = { lat: coords.latitude, lon: coords.longitude };
     var points = this.line.getLatLngs();
     if(points.length === 0){
