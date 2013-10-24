@@ -30,7 +30,7 @@ var PlacesOverlay = Backbone.View.extend({
     if(this.config.icon.scale){
       size = size * this.config.icon.scale;
     }
-    return L.icon({
+    return new L.Icon({
       iconUrl: this.config.icon.url,
       iconSize: [size, size],
       iconAnchor: [size/2, 0]
@@ -56,11 +56,9 @@ var PlacesOverlay = Backbone.View.extend({
     }.bind(this));
 
     this.markers = [];
-    this.map.on('zoomend', this.scaleMarkers);
   },
 
   scaleMarkers: function(){
-    console.log(this.map.getZoom());
     _.each(this.markers, function(marker){
       marker.setIcon(this.getIcon());
     }.bind(this));
