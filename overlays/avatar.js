@@ -19,7 +19,7 @@ var AvatarOverlay = Backbone.View.extend({
     this.model.on('change:avatar change:nickname', this.update);
   },
 
-  getAvatarIcon: function() {
+  getIcon: function() {
     var iconUrl = 'assets/images/avatars/'+ this.model.get('avatar') + '_48.png';
     return new PixelIcon({iconUrl: iconUrl});
   },
@@ -34,7 +34,7 @@ var AvatarOverlay = Backbone.View.extend({
       if(this.initialIcon) {
         this.avatar.setIcon(this.initialIcon);
       } else {
-        this.avatar.setIcon(this.getAvatarIcon());
+        this.avatar.setIcon(this.getIcon());
       }
       this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+this.model.get('nickname')+'</em>'));
       this.avatar.addTo(this.layer);
@@ -43,10 +43,10 @@ var AvatarOverlay = Backbone.View.extend({
 
   update: function(player) {
     if(this.avatar){
-      this.avatar.setIcon(this.getAvatarIcon());
+      this.avatar.setIcon(this.getIcon());
       this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+ player.get('nickname')+'</em>'));
     } else {
-      this.initialIcon = this.getAvatarIcon();
+      this.initialIcon = this.getIcon();
     }
   }
 });
