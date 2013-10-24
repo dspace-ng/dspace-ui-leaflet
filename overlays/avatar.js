@@ -1,11 +1,5 @@
 // FIXME: sometimes profile arrives first and sometiems fist location, simplyfy!
-var PixelIcon = L.Icon.extend({
-  options: {
-    iconSize:     [36, 36],
-    iconAnchor:   [18, 36],
-    popupAnchor:  [0, -40]
-  }
-});
+// set default icon if profile havent arrived yet?
 
 var AvatarOverlay = Backbone.View.extend({
 
@@ -17,37 +11,35 @@ var AvatarOverlay = Backbone.View.extend({
 
     this.model.on('change:position', this.move);
     this.model.on('change:avatar change:nickname', this.update);
+
+    this.avatar = new L.Marker();
+    this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+this.model.get('nickname')+'</em>'));
+    // FIXME: sometimes profile arrives first and sometiems fist location, simplyfy!
+    // set default icon if profile havent arrived yet?
   },
 
   getIcon: function() {
-    var iconUrl = 'assets/images/avatars/'+ this.model.get('avatar') + '_48.png';
-    return new PixelIcon({iconUrl: iconUrl});
+    return new L.Icon({
+      iconUrl: 'assets/images/avatars/'+ this.model.get('avatar') + '_48.png',
+      iconSize:     [36, 36],
+      iconAnchor:   [18, 36],
+      popupAnchor:  [0, -40]
+    });
   },
 
   move: function(position) {
     if(position.toJSON) position = position.toJSON();
-    var latLng = { lat: position.coords.latitude, lon: position.coords.longitude };
-    if(this.avatar) {
-      this.avatar.setLatLng(latLng);
-    } else {
-      this.avatar = new L.Marker(latLng);
-      if(this.initialIcon) {
-        this.avatar.setIcon(this.initialIcon);
-      } else {
-        this.avatar.setIcon(this.getIcon());
-      }
-      this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+this.model.get('nickname')+'</em>'));
+    var latLng = { lat: position.coords.latitude, lon: position.coords.longitude }; //FIXME use Position.getLatlng()
+    this.avatar.setLatLng(latLng);
+    if(!this.layer.hasLayer(this.avatar)){
+      this.avatar.setIcon(this.getIcon());
       this.avatar.addTo(this.layer);
     }
   },
 
   update: function(player) {
-    if(this.avatar){
-      this.avatar.setIcon(this.getIcon());
-      this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+ player.get('nickname')+'</em>'));
-    } else {
-      this.initialIcon = this.getIcon();
-    }
+    this.avatar.setIcon(this.getIcon());
+    this.avatar.bindPopup(new L.Popup({ closeButton: false }).setContent('<em>'+ player.get('nickname')+'</em>'));
   }
 });
 
